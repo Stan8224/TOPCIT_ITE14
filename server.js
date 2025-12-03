@@ -1,13 +1,19 @@
 // SUBJECT TO CHANGE ONCE FINALIZED!!!!
 const express = require("express");
+const path = require("path");
 const app = express();
 
-const PORT = process.env.PORT || 3000; // Render assigns this automatically
+// Use PORT from Render
+const PORT = process.env.PORT || 3000;
 
+// Serve the pages folder as static files
+app.use(express.static(path.join(__dirname, "pages")));
+
+// Route for the homepage
 app.get("/", (req, res) => {
-  res.send("Hello Render!");
+  res.sendFile(path.join(__dirname, "pages", "index.html"));
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT} in ${process.env.NODE_ENV} mode`);
+  console.log(`Server running on port ${PORT}`);
 });

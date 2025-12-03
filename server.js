@@ -2,15 +2,12 @@
 const express = require("express");
 const app = express();
 
-// Render provides the PORT environment variable
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000; // Render assigns this automatically
 
-// Simple route to test the server
 app.get("/", (req, res) => {
   res.send("Hello Render!");
 });
 
-// Start the server
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server running on port ${PORT} in ${process.env.NODE_ENV} mode`);
 });

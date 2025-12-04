@@ -1,0 +1,244 @@
+/* Base tokens */
+:root{
+  --bg: #f2f2f2;
+  --panel-bg: #ffffff;
+  --accent: #1f84a8;
+  --muted: #6b7280;
+  --border: #d9d9d9;
+  --shadow: rgba(0,0,0,0.08);
+  --max-width: 540px;      /* increase overall panel width */
+  --content-width: 520px;  /* increased so the box is bigger */
+  --line-width: 84%;       /* controls horizontal length of both lines (percentage or px) */
+  --line-thickness: 2px;   /* controls vertical thickness of both lines */
+  --line-color: var(--border); /* change color here */
+}
+
+
+/* page baseline */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+  background:var(--bg);
+  -webkit-font-smoothing:antialiased;
+  padding:0 18px 18px 18px; /* remove top padding so panel can sit flush to top */
+  overflow: hidden; /* prevent page scrolling */
+}
+
+
+/* outer white panel to match course layout */
+.main-container{
+  max-width:var(--max-width);
+  margin:0 auto; /* remove top margin so panel is flushed to viewport top */
+  background:var(--panel-bg);
+  border-radius:18px;
+  box-shadow:0 8px 24px var(--shadow);
+  min-height:100vh;
+  position:relative;
+  overflow:visible;
+  border:1px solid rgba(0,0,0,0.06);
+}
+
+
+/* center column area */
+.course-page{
+  width:100%;
+  padding:220px 0 250px; /* increased further to push content lower */
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  position:relative; /* positioning context for header-pill */
+}
+
+
+/* login column/card */
+.login-wrapper{
+  width:var(--content-width);
+  max-width:92%;
+  margin:0;
+}
+.login-card{
+  background:transparent; /* content sits on panel; card visual created by inner white box */
+  width:100%;
+  border-radius:12px;
+  position:relative;
+  padding-top:22px; /* room for overlapping header */
+  padding-bottom:28px;
+}
+
+
+/* header pill size (optional) */
+.header-pill{
+  position:absolute;
+  top:-1px;
+  left:0;
+  right:0;
+  background:var(--accent);
+  color:#fff;
+  padding:44px 34px; /* slightly larger pill spacing */
+  width:100%;
+  max-width:none;
+  margin:0 auto;
+  border-bottom-left-radius:28px;
+  border-bottom-right-radius:28px;
+  box-shadow:0 10px 20px rgba(31,132,168,0.12);
+  text-align:center;
+  z-index:5;
+}
+.header-pill h1{
+  margin:0;
+  font-size:48px; /* larger heading */
+  letter-spacing:1px;
+  font-weight:700;
+}
+
+
+/* card body area: use a white inner background to give the framed look in image */
+.login-card-body{
+  background:var(--panel-bg);
+  border-radius:10px;
+  padding:18px 18px 10px 18px;
+  margin-top:-8px; /* pull up slightly under the header */
+}
+
+
+/* form spacing and rhythm */
+.login-form{
+  display:flex;
+  flex-direction:column;
+  gap:10px; /* consistent vertical rhythm */
+}
+.field-label{
+  font-size:18px; /* bigger label text */
+  color:var(--muted);
+  margin:0 0 6px 0;
+  font-weight:600;
+}
+.text-input{
+  width:100%;
+  height:72px;        /* taller input */
+  padding:18px 22px;  /* more padding */
+  font-size:18px;     /* larger input text */
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:#fff;
+  outline:none;
+}
+.text-input::placeholder{
+  font-size:18px;
+  color:#9aa0a6;
+}
+.text-input:focus{
+  border-color:rgba(31,132,168,0.9);
+  box-shadow:0 6px 14px rgba(31,132,168,0.06);
+}
+
+
+/* helpers and button */
+.forgot{
+  display:inline-block;
+  font-size:15px; /* increased from 13px */
+  color:var(--accent);
+  text-decoration:none;
+  margin-top:6px;
+}
+.btn-login{
+  display:block;
+  margin:8px auto 0;
+  padding:18px 48px; /* larger hit area */
+  min-width:200px;
+  font-size:20px;
+  background:var(--accent);
+  color:#fff;
+  border:none;
+  border-radius:16px;
+  font-weight:700;
+  box-shadow:0 6px 14px rgba(31,132,168,0.12);
+  cursor:pointer;
+}
+
+
+/* CONTROL: change these variables to adjust both the divider and signup line */
+/* Utility classes to switch sizes without editing :root (apply to .course-page or .login-card-body) */
+.line-size-medium { --line-width: 90%; --line-thickness: 2.5px; }
+.line-size-large { --line-width: 96%; --line-thickness: 2.5px; }
+
+
+/* divider / OR */
+.divider{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:98px 6px 20px 6px;
+  margin:0 auto;               /* center */
+  /* make line thicker and more visible */
+}
+.divider span{
+  flex:1;
+  height:var(--line-thickness);   /* use shared thickness */
+  background:var(--line-color);
+}
+.divider strong{
+  color:var(--muted);
+  font-size:14px;
+  background:var(--panel-bg); /* sits on the line */
+  padding:0 14px;               /* increase horizontal gap around OR */
+}
+
+
+/* social icons row */
+.social-row{
+  display:flex;
+  gap:18px;
+  justify-content:center;
+  padding:6px 0 12px;
+}
+.social{
+  width:80px;  /* slightly larger circles */
+  height:80px;
+  border-radius:50%;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:#ffffff;
+  border:1px solid var(--border);
+  box-shadow:0 2px 8px rgba(0,0,0,0.04);
+  cursor:pointer;
+}
+.social.google svg,
+.social.facebook svg{
+  width:38px;height:38px; /* scale inner icon */
+}
+
+
+/* signup footer */
+.signup{
+  text-align:center;
+  color:var(--muted);
+  font-size:15px; /* increased from 13px */
+  padding-top:8px;
+}
+.signup a{color:var(--accent);text-decoration:none;font-weight:600}
+
+
+/* small separator above the signup text */
+.signup-line{
+  border:0;
+  height:var(--line-thickness);    /* same thickness */
+  background:var(--line-color);    /* same color */
+  width:var(--line-width);         /* same width */
+  margin:18px auto 12px auto;      /* adjust vertical spacing as needed */
+  display:block;
+  opacity:0.95;
+}
+
+
+/* responsive: slightly increase width on small screens if needed */
+@media (max-width:360px){
+  :root { --line-width: 90%; }
+  .header-pill{width:90%; transform:translateY(-22px); padding:12px 18px}
+  .login-wrapper{width:300px}
+  .text-input{height:36px}
+  .btn-login{min-width:86px;padding:8px 14px}
+}

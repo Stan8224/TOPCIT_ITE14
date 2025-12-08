@@ -11,6 +11,11 @@ import { useDoc } from '@/firebase/firestore/use-doc';
 import { doc } from 'firebase/firestore';
 import { useEffect, useMemo } from 'react';
 import Loader from '@/components/common/loader';
+import Clarity from '@microsoft/clarity';
+
+const projectId = "ugjiip6xda"
+
+Clarity.init(projectId);
 
 const leaderboardData = [
   { rank: 1, username: 'Al Beback', level: 98 },

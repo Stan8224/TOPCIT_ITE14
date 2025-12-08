@@ -16,7 +16,11 @@ import { useEffect, useState } from 'react';
 import Loader from '@/components/common/loader';
 import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import Clarity from '@microsoft/clarity';
 
+const projectId = "ugjiip6xda"
+
+Clarity.init(projectId);
 
 const iconMap: { [key: string]: React.ElementType } = {
   'Integrative Technologies': Computer,

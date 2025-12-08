@@ -26,6 +26,11 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useFirebase, setDocumentNonBlocking } from '@/firebase/index';
 import { doc, serverTimestamp, arrayUnion, collection } from 'firebase/firestore';
+import Clarity from '@microsoft/clarity';
+
+const projectId = "ugjiip6xda"
+
+Clarity.init(projectId);
 
 type AnswerExplanation = {
   questionId: string;

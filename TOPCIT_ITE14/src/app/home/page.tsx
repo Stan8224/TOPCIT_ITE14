@@ -15,6 +15,11 @@ import { useEffect, useMemo } from 'react';
 import BottomNav from '@/components/layout/bottom-nav';
 import Link from 'next/link';
 import Loader from '@/components/common/loader';
+import Clarity from '@microsoft/clarity';
+
+const projectId = "ugjiip6xda"
+
+Clarity.init(projectId);
 
 const iconMap: { [key: string]: React.ElementType } = {
   'Integrative Technologies': Computer,

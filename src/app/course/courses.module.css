@@ -1,0 +1,384 @@
+/* courses.module.css */
+.coursesPage {
+  position: relative;
+  min-height: 100vh;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  padding: 1rem;
+  padding-bottom: 5rem;
+}
+
+@media (min-width: 640px) {
+  .coursesPage {
+    padding: 1.5rem;
+    padding-bottom: 5rem;
+  }
+}
+
+.gradientBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 12rem;
+  background: linear-gradient(
+    to bottom,
+    hsla(var(--primary), 0.3),
+    transparent
+  );
+  border-bottom-left-radius: 1.5rem;
+  border-bottom-right-radius: 1.5rem;
+}
+
+.contentWrapper {
+  position: relative;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.pageTitle {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-family: var(--font-headline, sans-serif);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.spacer {
+  width: 2.5rem;
+}
+
+.searchFilterContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.searchWrapper {
+  position: relative;
+  flex: 1;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.25rem;
+  height: 1.25rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.searchInput {
+  padding-left: 2.5rem;
+  background-color: hsl(var(--card));
+  border: none;
+  border-radius: 0.5rem;
+}
+
+.filterButton {
+  background-color: hsl(var(--card));
+  border: none;
+  border-radius: 0.5rem;
+}
+
+.filterIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.filterButtonText {
+  margin-left: 0.5rem;
+}
+
+.coursesGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.courseCard {
+  background-color: hsla(var(--card), 0.8);
+  backdrop-filter: blur(8px);
+  border: 1px solid hsla(var(--border), 0.3);
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: opacity 0.2s;
+}
+
+.courseCardDisabled {
+  opacity: 0.5;
+  filter: grayscale(100%);
+  cursor: not-allowed;
+}
+
+.courseCardContent {
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.courseIconContainer {
+  width: 7rem;
+  height: 7rem;
+  flex-shrink: 0;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+/* Note: Dynamic color classes for course icons need to remain in JS */
+.courseIcon {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.courseIconTitle {
+  font-family: var(--font-headline, sans-serif);
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1.25;
+  color: hsl(var(--foreground));
+}
+
+.courseDetails {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.courseHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.courseMainTitle {
+  font-family: var(--font-headline, sans-serif);
+  font-weight: 700;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  color: hsl(var(--foreground));
+}
+
+.bookmarkButton {
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bookmarkIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.bookmarkIconActive {
+  fill: currentColor;
+  color: hsl(var(--primary));
+}
+
+.courseDescription {
+  font-size: 0.75rem;
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 0.75rem;
+}
+
+.courseActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.studyButton {
+  width: 100%;
+  border-radius: 9999px;
+  background-color: hsla(var(--primary), 0.8);
+  color: hsl(var(--primary-foreground));
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  transition: background-color 0.2s;
+}
+
+.studyButton:hover {
+  background-color: hsl(var(--primary));
+}
+
+.studyButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (min-width: 640px) {
+  .studyButton {
+    width: auto;
+  }
+}
+
+.progressContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+}
+
+.progressBar {
+  height: 0.375rem;
+  flex: 1;
+  border-radius: 9999px;
+  background-color: hsl(var(--muted));
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background-color: hsl(var(--primary));
+  transition: width 0.3s ease;
+}
+
+.progressText {
+  color: hsl(var(--muted-foreground));
+}
+
+.loaderOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: hsla(var(--background), 0.8);
+  backdrop-filter: blur(4px);
+  z-index: 50;
+}
+
+/* For the disabled course overlay */
+.disabledCourseOverlay {
+  width: 100%;
+  height: 100%;
+}
+
+/* For the dropdown menu */
+.dropdownMenuContent {
+  background-color: hsl(var(--popover));
+  color: hsl(var(--popover-foreground));
+  border-radius: var(--radius);
+  border: 1px solid hsl(var(--border));
+  padding: 0.5rem;
+  min-width: 12rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dropdownMenuLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  padding: 0.5rem 1rem;
+}
+
+.dropdownMenuSeparator {
+  height: 1px;
+  background-color: hsl(var(--border));
+  margin: 0.5rem 0;
+}
+
+.dropdownMenuItem {
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.dropdownMenuItem:hover {
+  background-color: hsl(var(--muted));
+}
+
+.dropdownMenuCheckboxItem {
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.2s;
+}
+
+.dropdownMenuCheckboxItem:hover {
+  background-color: hsl(var(--muted));
+}
+
+/* Alert Dialog */
+.alertDialogContent {
+  background-color: hsl(var(--popover));
+  color: hsl(var(--popover-foreground));
+  border-radius: var(--radius);
+  border: 1px solid hsl(var(--border));
+  padding: 1.5rem;
+  max-width: 24rem;
+  width: 90vw;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.alertDialogHeader {
+  margin-bottom: 1rem;
+}
+
+.alertDialogTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.alertDialogDescription {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 1.5rem;
+}
+
+.alertDialogFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.alertDialogAction {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  border: none;
+  border-radius: var(--radius);
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.alertDialogAction:hover {
+  background-color: hsla(var(--primary), 0.9);
+}

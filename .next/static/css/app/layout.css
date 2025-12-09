@@ -1,0 +1,64 @@
+/*!*****************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./src/app/globals.css ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 20% 98%;
+    --foreground: 220 10% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 10% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 10% 15%;
+    --primary: 221 42% 46%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 247 38% 15%;
+    --secondary-foreground: 240 10% 90%;
+    --muted: 0 0% 95%;
+    --muted-foreground: 25 15% 45%;
+    --accent: 340 80% 96%;
+    --accent-foreground: 340 90% 25%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 85%;
+    --input: 0 0% 85%;
+    --ring: 221 42% 46%;
+    --radius: 0.8rem;
+  }
+
+  .dark {
+    --background: 247 38% 15%;
+    --foreground: 240 10% 90%;
+    --card: 246 24% 23%;
+    --card-foreground: 240 10% 90%;
+    --popover: 247 38% 15%;
+    --popover-foreground: 240 10% 90%;
+    --primary: 205 50% 55%;
+    --primary-foreground: 247 38% 15%;
+    --secondary: 303 33% 40%;
+    --secondary-foreground: 240 10% 90%;
+    --muted: 246 24% 23%;
+    --muted-foreground: 240 5% 65%;
+    --accent: 0 70% 75%;
+    --accent-foreground: 240 10% 90%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 246 16% 30%;
+    --input: 246 16% 30%;
+    --ring: 205 50% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+

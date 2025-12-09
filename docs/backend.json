@@ -1,0 +1,309 @@
+{
+  "entities": {
+    "Course": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Course",
+      "type": "object",
+      "description": "Represents a course offered to students.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the course."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the course."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the course content."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description"
+      ]
+    },
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents a student user of the application.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the user, matches Firebase Auth UID."
+        },
+        "firstName": {
+          "type": "string",
+          "description": "User's first name."
+        },
+        "middleName": {
+          "type": "string",
+          "description": "User's middle name (optional)."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "User's last name."
+        },
+        "birthday": {
+          "type": "string",
+          "description": "User's date of birth.",
+          "format": "date"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "User's phone number."
+        },
+        "address": {
+          "type": "string",
+          "description": "User's physical address."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the user.",
+          "format": "email"
+        },
+        "bookmarkedCourses": {
+          "type": "array",
+          "description": "An array of course IDs that the user has bookmarked.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "birthday",
+        "phoneNumber",
+        "address",
+        "email"
+      ]
+    },
+    "CourseEnrollment": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "CourseEnrollment",
+      "type": "object",
+      "description": "Represents a user's enrollment in a specific course and their progress.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the course enrollment record."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N CourseEnrollment)"
+        },
+        "courseId": {
+          "type": "string",
+          "description": "Reference to Course. (Relationship: Course 1:N CourseEnrollment)"
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the course enrollment (e.g., 'ongoing', 'completed')."
+        },
+        "completionDate": {
+          "type": "string",
+          "description": "Date when the course was completed, if applicable.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "courseId",
+        "status"
+      ]
+    },
+    "Assignment": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Assignment",
+      "type": "object",
+      "description": "Represents an assignment within a course.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the assignment."
+        },
+        "courseId": {
+          "type": "string",
+          "description": "Reference to Course. (Relationship: Course 1:N Assignment)"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the assignment."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the assignment requirements."
+        },
+        "dueDate": {
+          "type": "string",
+          "description": "Due date for the assignment.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "courseId",
+        "name",
+        "description",
+        "dueDate"
+      ]
+    },
+    "Submission": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Submission",
+      "type": "object",
+      "description": "Represents a student's submission for an assignment.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the submission."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N Submission)"
+        },
+        "assignmentId": {
+          "type": "string",
+          "description": "Reference to Assignment. (Relationship: Assignment 1:N Submission)"
+        },
+        "submissionDate": {
+          "type": "string",
+          "description": "Date and time the submission was made.",
+          "format": "date-time"
+        },
+        "submissionLink": {
+          "type": "string",
+          "description": "Link to the submitted work (e.g., GitHub repository)."
+        },
+        "grade": {
+          "type": "number",
+          "description": "Grade received for the submission."
+        },
+        "feedback": {
+          "type": "string",
+          "description": "Feedback provided on the submission."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "assignmentId",
+        "submissionDate",
+        "submissionLink"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Stores user profiles. Only the user or admins can access user documents.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/courses/{courseId}",
+        "definition": {
+          "entityName": "Course",
+          "schema": {
+            "$ref": "#/backend/entities/Course"
+          },
+          "description": "Stores course information. Publicly accessible or restricted to specific roles, depending on requirements.",
+          "params": [
+            {
+              "name": "courseId",
+              "description": "The unique identifier for the course."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/courseEnrollments/{courseEnrollmentId}",
+        "definition": {
+          "entityName": "CourseEnrollment",
+          "schema": {
+            "$ref": "#/backend/entities/CourseEnrollment"
+          },
+          "description": "Stores enrollment records. This structure clearly associates enrollments with users, simplifying ownership-based security rules.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            },
+            {
+              "name": "courseEnrollmentId",
+              "description": "The unique identifier for the course enrollment record."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/courses/{courseId}/assignments/{assignmentId}",
+        "definition": {
+          "entityName": "Assignment",
+          "schema": {
+            "$ref": "#/backend/entities/Assignment"
+          },
+          "description": "Stores assignment details, nested under courses.",
+          "params": [
+            {
+              "name": "courseId",
+              "description": "The unique identifier for the course."
+            },
+            {
+              "name": "assignmentId",
+              "description": "The unique identifier for the assignment."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/assignments/{assignmentId}/submissions/{submissionId}",
+        "definition": {
+          "entityName": "Submission",
+          "schema": {
+            "$ref": "#/backend/entities/Submission"
+          },
+          "description": "Stores student submissions, nested under assignments and users. This nested structure ensures that submissions are easily linked to both the user and the specific assignment.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            },
+            {
+              "name": "assignmentId",
+              "description": "The unique identifier for the assignment."
+            },
+            {
+              "name": "submissionId",
+              "description": "The unique identifier for the submission."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore data structure is designed to efficiently manage course enrollments, assignments, submissions, and user data while prioritizing security and scalability. The key principle is Authorization Independence, achieved through denormalization, eliminating the need for `get()` calls in security rules. All paths follow a strict hierarchy based on ownership to streamline security rules.\n\n*   **Users Collection (`/users/{userId}`):** Stores user profiles. Security rules will ensure only the user or admins can access user documents.\n*   **Courses Collection (`/courses/{courseId}`):** Stores course information. Publicly accessible or restricted to specific roles, depending on requirements.\n*   **CourseEnrollments Collection (`/users/{userId}/courseEnrollments/{courseEnrollmentId}`):** Stores enrollment records. This structure clearly associates enrollments with users, simplifying ownership-based security rules.\n*   **Assignments Collection (`/courses/{courseId}/assignments/{assignmentId}`):** Stores assignment details, nested under courses.\n*   **Submissions Collection (`/users/{userId}/assignments/{assignmentId}/submissions/{submissionId}`):** Stores student submissions, nested under assignments and users. This nested structure ensures that submissions are easily linked to both the user and the specific assignment.\n\n**Authorization Independence:**\n\n*   The structure uses path-based authorization. For example, a submission's access control is determined by its location under `/users/{userId}/assignments/{assignmentId}/submissions/{submissionId}`, not by reading data from parent documents.\n\n**QAPs Support:**\n\n*   **List Operations:** The segregation of data into collections based on ownership and type ensures secure list operations. For example, listing submissions under `/users/{userId}/assignments/{assignmentId}/submissions` only requires checking the user's ID, preventing unauthorized access.\n\nThis design avoids hierarchical authorization dependencies by nesting related data, which creates clear ownership and enables simpler, more robust security rules. This ensures secure and scalable access control while also simplifying debugging and maintenance."
+  }
+}

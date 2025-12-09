@@ -14,8 +14,6 @@ import { useEffect, useMemo } from 'react';
 import BottomNav from '@/components/layout/bottom-nav';
 import Link from 'next/link';
 import Loader from '@/components/common/loader';
-import styles from './home.module.css'; // Import the CSS module
-
 
 const iconMap: { [key: string]: React.ElementType } = {
   'Integrative Technologies': Computer,
@@ -24,20 +22,12 @@ const iconMap: { [key: string]: React.ElementType } = {
   'Software Engineering': BrainCircuit,
 };
 
-const StreakDay = ({ day, date, active, current }: { day: string; date: string; active: boolean, current?: boolean }) => {
-  const getDayClass = () => {
-    if (current) return `${styles.streakDay} ${styles.streakDayCurrent}`;
-    if (active) return `${styles.streakDay} ${styles.streakDayActive}`;
-    return `${styles.streakDay} ${styles.streakDayInactive}`;
-  };
-
-  return (
-    <div className={getDayClass()}>
-      <div className={styles.streakDate}>{date}</div>
-      <div className={styles.streakDayName}>{day}</div>
-    </div>
-  );
-};
+const StreakDay = ({ day, date, active, current }: { day: string; date: string; active: boolean, current?: boolean }) => (
+  <div className={`text-center rounded-lg p-2 w-16 ${active ? 'bg-green-300' : 'bg-gray-200'} ${current ? 'bg-primary text-primary-foreground' : ''}`}>
+    <div className="font-bold text-lg">{date}</div>
+    <div className="text-xs font-semibold">{day}</div>
+  </div>
+);
 
 export default function HomePage() {
   const { auth, user, isUserLoading, firestore } = useFirebase();
@@ -54,6 +44,7 @@ export default function HomePage() {
     if (!user || !firestore) return null;
     return collection(firestore, `users/${user.uid}/courseEnrollments`);
   }, [firestore, user]);
+
 
   const getCourseProgress = (courseId: number) => {
     const course = courses.find(c => c.id === courseId);
@@ -76,7 +67,7 @@ export default function HomePage() {
 
   if (isLoading || !user || !userData) {
     return (
-      <div className={styles.loaderOverlay}>
+      <div className="fixed inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm z-50">
         <Loader />
       </div>
     );
@@ -86,37 +77,33 @@ export default function HomePage() {
 
   return (
     <>
-      <div className={styles.homePage}>
-        <div className={styles.gradientBackground}></div>
+      <div className="relative min-h-screen bg-[#FCEEEE] pb-20">
+        <div className="absolute top-0 left-0 right-0 h-48 bg-gradient-to-b from-primary/30 to-transparent rounded-b-3xl"></div>
         
-        <div className={styles.content}>
-          <div className={styles.header}>
-              <div className={styles.headerSpacer}></div>
-              <h1 className={styles.pageTitle}>HOME</h1>
-              <div className={styles.headerSpacer}></div>
+        <div className="relative p-4">
+          <div className="flex items-center justify-between mb-6">
+              <div className="w-10"></div>
+              <h1 className="text-xl font-headline font-bold text-primary-foreground bg-primary w-fit mx-auto px-6 py-2 rounded-xl">HOME</h1>
+              <div className="w-10"></div>
           </div>
         
-          <Card className={styles.welcomeCard}>
-            <div className={styles.welcomeContent}>
-              <div className={styles.welcomeText}>
-                <h2 className={styles.welcomeGreeting}>HI, {userName}!</h2>
-                <div className={styles.progressBar}>
-                  <div className={styles.progressFill} style={{ width: '50%' }} />
-                </div>
-                <p className={styles.levelText}>Level 1</p>
+           <Card className="bg-secondary rounded-2xl p-4 shadow-lg mb-6 mt-4">
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <h2 className="font-bold text-lg text-primary">HI, {userName}!</h2>
+                <Progress value={50} className="h-2 my-1" />
+                <p className="text-sm font-semibold text-muted-foreground">Level 1</p>
               </div>
-              <Avatar className={styles.avatar}>
+              <Avatar className="w-16 h-16 border-4 border-white ml-4">
                 <AvatarImage src="https://picsum.photos/seed/user-avatar/200" alt={userName}/>
-                <AvatarFallback>
-                  {(userData.firstName?.[0] || '') + (userData.lastName?.[0] || '')}
-                </AvatarFallback>
+                <AvatarFallback>{(userData.firstName?.[0] || '') + (userData.lastName?.[0] || '')}</AvatarFallback>
               </Avatar>
             </div>
           </Card>
 
-          <Card className={styles.streakCard}>
-            <h3 className={styles.streakTitle}>YOU'RE ON A 7 DAY STREAK!</h3>
-            <div className={styles.streakDays}>
+          <Card className="rounded-2xl p-4 shadow-lg mb-6 text-center bg-card">
+            <h3 className="font-bold text-lg mb-4">YOU'RE ON A 7 DAY STREAK!</h3>
+            <div className="flex justify-around">
               <StreakDay day="MON" date="13" active={true} />
               <StreakDay day="TUES" date="14" active={true} />
               <StreakDay day="WED" date="15" active={true} />
@@ -124,41 +111,33 @@ export default function HomePage() {
             </div>
           </Card>
 
-          <h3 className={styles.recentlyVisitedTitle}>RECENTLY VISITED</h3>
+          <h3 className="text-center font-bold text-lg my-4 text-gray-700">RECENTLY VISITED</h3>
 
-          <div className={styles.coursesGrid}>
+          <div className="grid grid-cols-2 gap-4">
             {courses.slice(0,2).map((course) => {
               const Icon = iconMap[course.title] || Computer;
               const { completedModules, totalModules, progress } = getCourseProgress(course.id);
-              
               return (
-                <Link href={`/course/${course.id}`} key={course.id} className={styles.courseCard}>
-                  <div className={styles.courseCardContent}>
+              <Link href={`/course/${course.id}`} key={course.id}>
+                <Card className={`bg-${course.color}-500/20 rounded-2xl p-4 h-full flex flex-col justify-between`}>
                     <div>
-                      <div className={`${styles.courseIconContainer} bg-${course.color}-500/20`}>
-                        <Icon className={`${styles.courseIcon} text-${course.color}-500`}/>
-                      </div>
-                      <h4 className={styles.courseTitle}>{course.title}</h4>
+                        <div className={`p-3 rounded-lg inline-block bg-background/50 mb-2`}>
+                            <Icon className={`w-8 h-8 text-${course.color}-500`}/>
+                        </div>
+                        <h4 className="font-bold text-foreground">{course.title}</h4>
                     </div>
                     <div>
-                      <div className={styles.courseProgressBar}>
-                        <div 
-                          className={styles.courseProgressFill} 
-                          style={{ width: `${progress}%` }}
-                        />
-                      </div>
-                      <p className={styles.courseProgressText}>
-                        {completedModules}/{totalModules} COURSES
-                      </p>
+                        <Progress value={progress} className="h-1.5 my-2" />
+                        <p className="text-xs text-muted-foreground font-semibold">{completedModules}/{totalModules} COURSES</p>
                     </div>
-                  </div>
-                </Link>
-              );
+                </Card>
+              </Link>
+              )
             })}
           </div>
 
-          <div className={styles.leaderboardButtonContainer}>
-            <Button asChild size="lg" className={styles.leaderboardButton}>
+          <div className="text-center mt-8">
+            <Button asChild size="lg" className="rounded-full bg-green-400 hover:bg-green-500 text-white font-bold text-lg">
               <Link href="/leaderboard">VIEW LEADERBOARD</Link>
             </Button>
           </div>

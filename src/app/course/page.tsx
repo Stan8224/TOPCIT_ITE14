@@ -15,12 +15,6 @@ import { useEffect, useState } from 'react';
 import Loader from '@/components/common/loader';
 import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import Clarity from '@microsoft/clarity';
-import styles from './courses.module.css'; // Import the CSS module
-
-const projectId = "ugjiip6xda"
-
-Clarity.init(projectId);
 
 const iconMap: { [key: string]: React.ElementType } = {
   'Integrative Technologies': Computer,
@@ -130,7 +124,7 @@ export default function CoursesPage() {
 
   if (isUserLoading || !user) {
     return (
-      <div className={styles.loaderOverlay}>
+      <div className="fixed inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm z-50">
         <Loader />
       </div>
     );
@@ -138,47 +132,46 @@ export default function CoursesPage() {
 
   return (
     <>
-    <div className={styles.coursesPage}>
-      <div className={styles.gradientBackground}></div>
+    <div className="relative min-h-screen bg-background text-foreground p-4 sm:p-6 pb-20">
+      <div className="absolute top-0 left-0 right-0 h-48 bg-gradient-to-b from-primary/30 to-transparent rounded-b-3xl"></div>
       
-      <div className={styles.contentWrapper}>
-        <div className={styles.header}>
+      <div className="relative">
+        <div className="flex items-center justify-between mb-6">
           <Button variant="ghost" size="icon" onClick={() => router.push('/home')}>
             <ArrowLeft />
           </Button>
-          <h1 className={styles.pageTitle}>Courses</h1>
-           <div className={styles.spacer}></div>
+          <h1 className="text-xl font-headline font-semibold uppercase">Courses</h1>
+           <div className="w-10"></div>
         </div>
 
-        <div className={styles.searchFilterContainer}>
-          <div className={styles.searchWrapper}>
-            <Search className={styles.searchIcon} />
+        <div className="flex items-center gap-2 mb-6">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
             <Input 
               placeholder="Search" 
-              className={styles.searchInput} 
+              className="pl-10 bg-card border-none rounded-lg" 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className={styles.filterButton}>
-                <Filter className={styles.filterIcon} />
-                <span className={styles.filterButtonText}>Filter</span>
+              <Button variant="outline" className="bg-card border-none rounded-lg">
+                <Filter className="w-5 h-5" />
+                <span className="ml-2">Filter</span>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className={styles.dropdownMenuContent}>
-              <DropdownMenuLabel className={styles.dropdownMenuLabel}>Filter by Course</DropdownMenuLabel>
-              <DropdownMenuSeparator className={styles.dropdownMenuSeparator} />
-              <DropdownMenuItem className={styles.dropdownMenuItem} onSelect={handleSelectAll}>Select All</DropdownMenuItem>
-              <DropdownMenuItem className={styles.dropdownMenuItem} onSelect={handleDeselectAll}>Deselect All</DropdownMenuItem>
-              <DropdownMenuSeparator className={styles.dropdownMenuSeparator} />
+            <DropdownMenuContent>
+              <DropdownMenuLabel>Filter by Course</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onSelect={handleSelectAll}>Select All</DropdownMenuItem>
+              <DropdownMenuItem onSelect={handleDeselectAll}>Deselect All</DropdownMenuItem>
+              <DropdownMenuSeparator />
               {courses.map(course => (
                  <DropdownMenuCheckboxItem
                   key={course.id}
                   checked={filterState[course.title]}
                   onCheckedChange={() => handleFilterChange(course.title)}
-                  className={styles.dropdownMenuCheckboxItem}
                 >
                   {course.title}
                 </DropdownMenuCheckboxItem>
@@ -187,7 +180,7 @@ export default function CoursesPage() {
           </DropdownMenu>
         </div>
 
-        <div className={styles.coursesGrid}>
+        <div className="space-y-4">
           {filteredCourses.map((course) => {
             const Icon = iconMap[course.title] || Computer;
             const { completedModules, totalModules, progress } = getCourseProgress(course.id);
@@ -195,44 +188,26 @@ export default function CoursesPage() {
             const isBookmarked = userData?.bookmarkedCourses?.includes(course.id.toString());
             
             const cardContent = (
-              <CardContent className={styles.courseCardContent}>
+              <CardContent className="p-4 flex gap-4">
                   <div className={`w-28 h-28 shrink-0 rounded-lg flex flex-col items-center justify-center text-center p-2 bg-${course.color}-500/20 text-${course.color}-500`}>
-                    <Icon className={styles.courseIcon} />
-                    <h3 className={styles.courseIconTitle}>{course.title.replace(' and ', ' & ')}</h3>
+                    <Icon className="w-10 h-10 mb-2" />
+                    <h3 className="font-headline font-semibold text-sm leading-tight text-foreground">{course.title.replace(' and ', ' & ')}</h3>
                   </div>
-                  <div className={styles.courseDetails}>
+                  <div className="flex-1 flex flex-col justify-between">
                     <div>
-                      <div className={styles.courseHeader}>
-                        <h2 className={styles.courseMainTitle}>{course.title}</h2>
-                        <button 
-                          className={styles.bookmarkButton}
-                          onClick={(e) => { 
-                            e.preventDefault(); 
-                            e.stopPropagation(); 
-                            handleBookmark(course.id);
-                          }}
-                        >
-                          <Bookmark className={`${styles.bookmarkIcon} ${isBookmarked ? styles.bookmarkIconActive : ''}`} />
-                        </button>
+                      <div className="flex justify-between items-start">
+                        <h2 className="font-headline font-bold text-lg text-foreground">{course.title}</h2>
+                        <Button variant="ghost" size="icon" className="w-8 h-8 shrink-0" onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleBookmark(course.id);}}>
+                          <Bookmark className={`w-5 h-5 text-muted-foreground ${isBookmarked ? 'fill-current text-primary' : ''}`} />
+                        </Button>
                       </div>
-                      <p className={styles.courseDescription}>{course.description}</p>
+                      <p className="text-xs text-muted-foreground mb-3">{course.description}</p>
                     </div>
-                    <div className={styles.courseActions}>
-                       <Button 
-                         size="sm" 
-                         className={styles.studyButton} 
-                         disabled={isDisabled}
-                       >
-                         STUDY
-                       </Button>
-                       <div className={styles.progressContainer}>
-                        <div className={styles.progressBar}>
-                          <div 
-                            className={styles.progressFill} 
-                            style={{ width: `${progress}%` }}
-                          />
-                        </div>
-                        <span className={styles.progressText}>{completedModules}/{totalModules} COURSES</span>
+                    <div className="space-y-2">
+                       <Button size="sm" className="w-full sm:w-auto rounded-full bg-primary/80 hover:bg-primary text-primary-foreground font-bold" disabled={isDisabled}>STUDY</Button>
+                       <div className="flex items-center gap-2 text-xs">
+                        <Progress value={progress} className="h-1.5 flex-1" />
+                        <span className="text-muted-foreground">{completedModules}/{totalModules} COURSES</span>
                       </div>
                     </div>
                   </div>
@@ -240,12 +215,9 @@ export default function CoursesPage() {
             );
 
             return (
-              <Card 
-                key={course.id} 
-                className={`${styles.courseCard} ${isDisabled ? styles.courseCardDisabled : ''}`}
-              >
+              <Card key={course.id} className={`bg-card/80 backdrop-blur-sm border-border/30 rounded-2xl overflow-hidden transition-opacity ${isDisabled ? 'opacity-50 grayscale cursor-not-allowed' : ''}`}>
                  {isDisabled ? (
-                  <div onClick={handleDisabledCourseClick} className={styles.disabledCourseOverlay}>
+                  <div onClick={handleDisabledCourseClick} className="w-full h-full">
                     {cardContent}
                   </div>
                 ) : (
@@ -260,20 +232,15 @@ export default function CoursesPage() {
       </div>
     </div>
     <AlertDialog open={showAlert} onOpenChange={setShowAlert}>
-        <AlertDialogContent className={styles.alertDialogContent}>
+        <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle className={styles.alertDialogTitle}>Coming Soon!</AlertDialogTitle>
-            <AlertDialogDescription className={styles.alertDialogDescription}>
+            <AlertDialogTitle>Coming Soon!</AlertDialogTitle>
+            <AlertDialogDescription>
               This course is not yet available. Please check back later!
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter className={styles.alertDialogFooter}>
-            <AlertDialogAction 
-              onClick={() => setShowAlert(false)}
-              className={styles.alertDialogAction}
-            >
-              OK
-            </AlertDialogAction>
+          <AlertDialogFooter>
+            <AlertDialogAction onClick={() => setShowAlert(false)}>OK</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

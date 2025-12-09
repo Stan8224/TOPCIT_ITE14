@@ -1,0 +1,305 @@
+/* home.module.css */
+.homePage {
+  position: relative;
+  min-height: 100vh;
+  background-color: #FCEEEE; /* This specific color isn't in your variables */
+  padding-bottom: 5rem;
+}
+
+@media (min-width: 640px) {
+  .homePage {
+    padding: 1rem;
+    padding-bottom: 5rem;
+  }
+}
+
+.gradientBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 12rem;
+  background: linear-gradient(
+    to bottom,
+    hsla(var(--primary), 0.3),
+    transparent
+  );
+  border-bottom-left-radius: 1.5rem;
+  border-bottom-right-radius: 1.5rem;
+}
+
+.content {
+  position: relative;
+  padding: 1rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.headerSpacer {
+  width: 2.5rem;
+}
+
+.pageTitle {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-family: var(--font-headline, sans-serif);
+  font-weight: 700;
+  color: hsl(var(--primary-foreground));
+  background-color: hsl(var(--primary));
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 0.75rem;
+}
+
+.welcomeCard {
+  background-color: hsl(var(--secondary));
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+}
+
+.welcomeContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.welcomeText {
+  flex: 1;
+}
+
+.welcomeGreeting {
+  font-weight: 700;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  color: hsl(var(--primary));
+  text-transform: uppercase;
+}
+
+.progressBar {
+  height: 0.5rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  border-radius: 9999px;
+  background-color: hsla(var(--primary), 0.2);
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background-color: hsl(var(--primary));
+  border-radius: 9999px;
+}
+
+.levelText {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: hsl(var(--muted-foreground));
+}
+
+.avatar {
+  width: 4rem;
+  height: 4rem;
+  border: 4px solid white;
+  margin-left: 1rem;
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatarFallback {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.streakCard {
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  background-color: hsl(var(--card));
+}
+
+.streakTitle {
+  font-weight: 700;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  margin-bottom: 1rem;
+}
+
+.streakDays {
+  display: flex;
+  justify-content: space-around;
+}
+
+.streakDay {
+  text-align: center;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  width: 4rem;
+}
+
+.streakDayActive {
+  background-color: #86efac; /* green-300 */
+}
+
+.streakDayInactive {
+  background-color: #e5e7eb; /* gray-200 */
+}
+
+.streakDayCurrent {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+
+.streakDate {
+  font-weight: 700;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.streakDayName {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.recentlyVisitedTitle {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  color: #374151; /* gray-700 */
+}
+
+.coursesGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.courseCard {
+  border-radius: 1rem;
+  padding: 1rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s;
+}
+
+.courseCard:hover {
+  transform: translateY(-2px);
+}
+
+.courseCardContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.courseIconContainer {
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background-color: hsla(var(--background), 0.5);
+  margin-bottom: 0.5rem;
+  display: inline-block;
+}
+
+.courseIcon {
+  width: 2rem;
+  height: 2rem;
+}
+
+.courseTitle {
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  margin-bottom: 0.5rem;
+}
+
+.courseProgressBar {
+  height: 0.375rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 9999px;
+  background-color: hsl(var(--muted));
+  overflow: hidden;
+}
+
+.courseProgressFill {
+  height: 100%;
+  background-color: hsl(var(--primary));
+  border-radius: 9999px;
+}
+
+.courseProgressText {
+  font-size: 0.75rem;
+  color: hsl(var(--muted-foreground));
+  font-weight: 600;
+}
+
+.leaderboardButtonContainer {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.leaderboardButton {
+  border-radius: 9999px;
+  background-color: #86efac; /* green-400 */
+  color: white;
+  font-weight: 700;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  border: none;
+  cursor: pointer;
+  padding: 0.75rem 2rem;
+  transition: background-color 0.2s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.leaderboardButton:hover {
+  background-color: #4ade80; /* green-500 */
+}
+
+.loaderOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: hsla(var(--background), 0.8);
+  backdrop-filter: blur(4px);
+  z-index: 50;
+}

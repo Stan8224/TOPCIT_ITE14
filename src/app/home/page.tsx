@@ -1,25 +1,19 @@
-
 'use client';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { useFirebase } from '@/firebase/index';
 import { useDoc } from '@/firebase/firestore/use-doc';
 import { courses } from '@/lib/mock-data';
-import { collection, doc } from 'firebase/firestore';
-import { BrainCircuit, Computer, Database, Pencil, ArrowLeft } from 'lucide-react';
+import { doc } from 'firebase/firestore';
+import { BrainCircuit, Computer, Database, Pencil } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import BottomNav from '@/components/layout/bottom-nav';
 import Link from 'next/link';
 import Loader from '@/components/common/loader';
-import Clarity from '@microsoft/clarity';
-
-const projectId = "ugjiip6xda"
-
-Clarity.init(projectId);
 
 const iconMap: { [key: string]: React.ElementType } = {
   'Integrative Technologies': Computer,
@@ -28,15 +22,36 @@ const iconMap: { [key: string]: React.ElementType } = {
   'Software Engineering': BrainCircuit,
 };
 
-const StreakDay = ({ day, date, active, current }: { day: string; date: string; active: boolean, current?: boolean }) => (
-  <div className={`text-center rounded-lg p-2 w-16 ${active ? 'bg-green-300' : 'bg-gray-200'} ${current ? 'bg-primary text-primary-foreground' : ''}`}>
-    <div className="font-bold text-lg">{date}</div>
+// --- FIXED STREAK DAY COMPONENT ---
+const StreakDay = ({
+  day,
+  date,
+  active = false,
+  current = false
+}: {
+  day: string;
+  date: string;
+  active?: boolean;
+  current?: boolean;
+}) => (
+  <div
+    className={`text-center rounded-xl p-3 w-16 font-bold shadow 
+      ${
+        current
+          ? 'bg-[#2D7EAE] text-white'
+          : active
+          ? 'bg-[#85E680] text-gray-800'
+          : 'bg-[#D9D9D9] text-gray-700'
+      }
+    `}
+  >
+    <div className="text-lg">{date}</div>
     <div className="text-xs font-semibold">{day}</div>
   </div>
 );
 
 export default function HomePage() {
-  const { auth, user, isUserLoading, firestore } = useFirebase();
+  const { user, isUserLoading, firestore } = useFirebase();
   const router = useRouter();
 
   const userDocRef = useMemo(() => {
@@ -45,29 +60,6 @@ export default function HomePage() {
   }, [firestore, user]);
 
   const { data: userData, isLoading: isUserDocLoading } = useDoc(userDocRef);
-
-  const enrollmentsQuery = useMemo(() => {
-    if (!user || !firestore) return null;
-    return collection(firestore, `users/${user.uid}/courseEnrollments`);
-  }, [firestore, user]);
-
-
-  const getCourseProgress = (courseId: number) => {
-    const course = courses.find(c => c.id === courseId);
-    if (!course) return { completedModules: 0, totalModules: 0, progress: 0 };
-
-    const totalModules = course.modules.length;
-    const completedModules = 0; // Hardcoded for now
-    const progress = totalModules > 0 ? (completedModules / totalModules) * 100 : 0;
-    
-    return { completedModules, totalModules, progress };
-  };
-
-  useEffect(() => {
-    if (!isUserLoading && !user) {
-      router.replace('/');
-    }
-  }, [user, isUserLoading, router]);
 
   const isLoading = isUserLoading || isUserDocLoading;
 
@@ -83,72 +75,99 @@ export default function HomePage() {
 
   return (
     <>
-      <div className="relative min-h-screen bg-[#FCEEEE] pb-20">
-        <div className="absolute top-0 left-0 right-0 h-48 bg-gradient-to-b from-primary/30 to-transparent rounded-b-3xl"></div>
-        
+      <div className="relative min-h-screen bg-[#F0F7FF] pb-24">
+
+        {/* ----- TOP HEADER BLUE CURVE ----- */}
+        <div className="absolute top-0 left-0 right-0 h-44 bg-[#2D7EAE] rounded-b-[40px]" />
+
         <div className="relative p-4">
-          <div className="flex items-center justify-between mb-6">
-              <div className="w-10"></div>
-              <h1 className="text-xl font-headline font-bold text-primary-foreground bg-primary w-fit mx-auto px-6 py-2 rounded-xl">HOME</h1>
-              <div className="w-10"></div>
-          </div>
-        
-           <Card className="bg-secondary rounded-2xl p-4 shadow-lg mb-6 mt-4">
+
+          {/* ----- PAGE TITLE ----- */}
+          <h1 className="text-center text-xl font-extrabold text-white tracking-wide mt-2">
+            HOME
+          </h1>
+
+          {/* ----- USER PROFILE CARD ----- */}
+          <Card className="bg-[#D2EEFF] rounded-2xl p-5 shadow-xl mt-6 mb-6">
             <div className="flex items-center justify-between">
               <div className="flex-1">
-                <h2 className="font-bold text-lg text-primary">HI, {userName}!</h2>
-                <Progress value={50} className="h-2 my-1" />
-                <p className="text-sm font-semibold text-muted-foreground">Level 1</p>
+                <h2 className="font-extrabold text-lg text-[#2D7EAE]">
+                  HI, {userName}!
+                </h2>
+
+                <Progress value={50} className="h-2 my-2 bg-white" />
+
+                <p className="text-sm font-bold text-[#2D7EAE]">Level {userData.level || 1}</p>
               </div>
-              <Avatar className="w-16 h-16 border-4 border-white ml-4">
-                <AvatarImage src="https://picsum.photos/seed/user-avatar/200" alt={userName}/>
-                <AvatarFallback>{(userData.firstName?.[0] || '') + (userData.lastName?.[0] || '')}</AvatarFallback>
+
+              <Avatar className="w-16 h-16 border-4 border-white shadow-md">
+                <AvatarImage src="/avatar.png" alt={userName} />
+                <AvatarFallback>
+                  {(userData.firstName?.[0] || '') + (userData.lastName?.[0] || '')}
+                </AvatarFallback>
               </Avatar>
             </div>
           </Card>
 
-          <Card className="rounded-2xl p-4 shadow-lg mb-6 text-center bg-card">
-            <h3 className="font-bold text-lg mb-4">YOU'RE ON A 7 DAY STREAK!</h3>
+          {/* ----- STREAK CARD ----- */}
+          <Card className="rounded-2xl p-4 shadow-xl bg-white text-center">
+            <h3 className="font-extrabold text-lg text-gray-800 mb-4">
+              YOU'RE ON A 7 DAY STREAK!
+            </h3>
+
             <div className="flex justify-around">
-              <StreakDay day="MON" date="13" active={true} />
-              <StreakDay day="TUES" date="14" active={true} />
-              <StreakDay day="WED" date="15" active={true} />
-              <StreakDay day="THURS" date="16" active={false} current={true}/>
+              <StreakDay day="MON" date="13" active />
+              <StreakDay day="TUES" date="14" active />
+              <StreakDay day="WED" date="15" active />
+              <StreakDay day="THURS" date="16" current />
             </div>
           </Card>
 
-          <h3 className="text-center font-bold text-lg my-4 text-gray-700">RECENTLY VISITED</h3>
+          {/* ----- RECENTLY VISITED ----- */}
+          <h3 className="text-center font-extrabold text-lg mt-8 mb-4 text-gray-700">
+            RECENTLY VISITED
+          </h3>
 
           <div className="grid grid-cols-2 gap-4">
-            {courses.slice(0,2).map((course) => {
+            {courses.slice(0, 4).map((course) => {
               const Icon = iconMap[course.title] || Computer;
-              const { completedModules, totalModules, progress } = getCourseProgress(course.id);
+
               return (
-              <Link href={`/course/${course.id}`} key={course.id}>
-                <Card className={`bg-${course.color}-500/20 rounded-2xl p-4 h-full flex flex-col justify-between`}>
+                <Link href={`/course/${course.id}`} key={course.id}>
+                  <Card className="bg-[#23374D] text-white rounded-2xl p-4 h-full flex flex-col justify-between shadow-md">
                     <div>
-                        <div className={`p-3 rounded-lg inline-block bg-background/50 mb-2`}>
-                            <Icon className={`w-8 h-8 text-${course.color}-500`}/>
-                        </div>
-                        <h4 className="font-bold text-foreground">{course.title}</h4>
+                      <div className="bg-[#3D4F63] p-3 rounded-lg inline-block mb-2">
+                        <Icon className="w-8 h-8 text-white" />
+                      </div>
+
+                      <h4 className="font-bold">{course.title}</h4>
                     </div>
+
                     <div>
-                        <Progress value={progress} className="h-1.5 my-2" />
-                        <p className="text-xs text-muted-foreground font-semibold">{completedModules}/{totalModules} COURSES</p>
+                      <Progress value={0} className="h-1.5 my-2 bg-gray-600" />
+                      <p className="text-xs font-semibold text-gray-300">
+                        0/10 COURSES
+                      </p>
                     </div>
-                </Card>
-              </Link>
-              )
+                  </Card>
+                </Link>
+              );
             })}
           </div>
 
+          {/* ----- LEADERBOARD BUTTON ----- */}
           <div className="text-center mt-8">
-            <Button asChild size="lg" className="rounded-full bg-green-400 hover:bg-green-500 text-white font-bold text-lg">
+            <Button
+              asChild
+              size="lg"
+              className="rounded-full bg-[#38C96D] hover:bg-[#2db85f] text-white font-extrabold text-lg px-8 shadow-md"
+            >
               <Link href="/leaderboard">VIEW LEADERBOARD</Link>
             </Button>
           </div>
         </div>
       </div>
+
       <BottomNav />
     </>
   );

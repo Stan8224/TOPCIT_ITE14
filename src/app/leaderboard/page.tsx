@@ -1,9 +1,8 @@
-
 'use client';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search, Filter, ArrowLeft, Trophy } from 'lucide-react';
+import { Search, Filter, ArrowLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import BottomNav from '@/components/layout/bottom-nav';
 import { useFirebase } from '@/firebase/index';
@@ -13,8 +12,7 @@ import { useEffect, useMemo } from 'react';
 import Loader from '@/components/common/loader';
 import Clarity from '@microsoft/clarity';
 
-const projectId = "ugjiip6xda"
-
+const projectId = "ugjiip6xda";
 Clarity.init(projectId);
 
 const leaderboardData = [
@@ -63,59 +61,66 @@ export default function LeaderboardPage() {
     level: 1,
   };
 
-
   return (
     <>
-      <div className="relative min-h-screen pb-20 bg-[#FCEEEE]">
-        <div className="absolute top-0 left-0 right-0 h-48 bg-gradient-to-b from-primary/30 to-transparent rounded-b-3xl"></div>
+      <div className="min-h-screen pb-24 bg-[#F2F2F2]">
         
-        <div className="relative p-4">
-          <div className="flex items-center justify-between mb-6">
-            <Button variant="ghost" size="icon" onClick={() => router.push('/home')}>
-                <ArrowLeft />
-            </Button>
-            <h1 className="text-xl font-headline font-bold text-primary-foreground bg-primary w-fit mx-auto px-6 py-2 rounded-xl">LEADERBOARD</h1>
-            <div className="w-10"></div>
-          </div>
+        {/* Yellow Header */}
+        <div className="bg-[#F6D85F] text-white text-center py-4 rounded-b-3xl shadow-md">
+          <h1 className="text-xl font-bold tracking-wide">LEADERBOARD</h1>
+        </div>
 
-          <div className="flex items-center gap-2 mb-6">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-              <Input placeholder="Search" className="pl-10 bg-white border-gray-300 rounded-lg backdrop-blur-sm" />
-            </div>
-            <Button variant="outline" className="bg-white border-gray-300 rounded-lg backdrop-blur-sm">
-              <Filter className="w-5 h-5" />
-              <span className="ml-2">Filter</span>
-            </Button>
-          </div>
+        <div className="p-4">
           
-          <div className='p-4 rounded-xl bg-white/50 backdrop-blur-sm'>
-
-            <h3 className="text-xl font-bold mb-4 text-gray-800">Highest Level</h3>
-
-            <div className="grid grid-cols-[auto_1fr_auto] gap-x-4 gap-y-2 items-center text-sm font-semibold text-gray-600 px-4 mb-2">
-                <div>Rank</div>
-                <div>Username</div>
-                <div>Level</div>
+          {/* Search + Filter */}
+          <div className="flex items-center gap-3 mb-6">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Input
+                placeholder="Search"
+                className="pl-10 bg-white shadow rounded-xl border-none"
+              />
             </div>
 
-            <div className="space-y-2">
-              {leaderboardData.map((user) => (
-                <div key={user.rank} className="grid grid-cols-[auto_1fr_auto] items-center gap-x-4 p-3 rounded-lg bg-primary/10 text-primary-foreground font-semibold">
-                  <div className="font-bold text-primary">#{user.rank}</div>
-                  <div className="text-secondary">{user.username}</div>
-                  <div className="text-secondary">Level {user.level}</div>
-                </div>
-              ))}
-                <div className="grid grid-cols-[auto_1fr_auto] items-center gap-x-4 p-3 rounded-lg bg-[#F9A826] text-white font-semibold shadow-md">
-                  <div className="font-bold">{currentUser.rank}</div>
-                  <div>{currentUser.username}</div>
-                  <div>Level {currentUser.level}</div>
-                </div>
+            <Button className="bg-white shadow rounded-xl flex items-center gap-2 border-none">
+              <Filter className="w-5 h-5 text-gray-600" />
+              <span className="text-gray-600 font-medium">Filter</span>
+            </Button>
+          </div>
+
+          {/* Section Title */}
+          <h3 className="text-xl font-bold text-gray-700 mb-3">Highest Level</h3>
+
+          {/* Table Header */}
+          <div className="grid grid-cols-[auto_1fr_auto] text-gray-600 font-semibold text-sm px-2 mb-2 gap-x-1">
+            <div>Rank</div>
+            <div>Username</div>
+            <div>Level</div>
+          </div>
+
+          {/* Leaderboard List */}
+          <div className="space-y-2">
+            {leaderboardData.map((player) => (
+              <div
+                key={player.rank}
+                className="grid grid-cols-[auto_1fr_auto] gap-x-6 items-center px-4 py-3 rounded-full bg-[#F9D648] text-gray-900 font-semibold shadow"
+              >
+                <div className="font-bold">{player.rank}</div>
+                <div>{player.username}</div>
+                <div>Level {player.level}</div>
+              </div>
+            ))}
+
+            {/* Highlighted Current User Row */}
+            <div className="grid grid-cols-[auto_1fr_auto] items-center px-4 py-3 rounded-full bg-[#F9D648] text-gray-900 font-semibold shadow">
+              <div className="font-bold">{currentUser.rank}</div>
+              <div>{currentUser.username}</div>
+              <div>Level {currentUser.level}</div>
             </div>
           </div>
         </div>
       </div>
+
       <BottomNav />
     </>
   );

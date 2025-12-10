@@ -1,52 +1,68 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 220 20% 98%;
-    --foreground: 220 10% 15%;
+    /* UPDATED TO MATCH YOUR SCREENSHOT COLORS */
+    --background: 0 0% 100%;           /* white login card */
+    --foreground: 0 0% 20%;            /* #333 text */
     --card: 0 0% 100%;
-    --card-foreground: 220 10% 15%;
+    --card-foreground: 0 0% 20%;
     --popover: 0 0% 100%;
-    --popover-foreground: 220 10% 15%;
-    --primary: 221 42% 46%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 247 38% 15%;
-    --secondary-foreground: 240 10% 90%;
-    --muted: 0 0% 95%;
-    --muted-foreground: 25 15% 45%;
-    --accent: 340 80% 96%;
-    --accent-foreground: 340 90% 25%;
-    --destructive: 0 84.2% 60.2%;
+    --popover-foreground: 0 0% 20%;
+
+    --primary: 196 86% 31%;            /* teal blue (#0B6F97) */
+    --primary-foreground: 0 0% 100%;   /* white */
+
+    --secondary: 0 0% 92%;             /* light gray background (#EBEBEB) */
+    --secondary-foreground: 0 0% 20%;
+
+    --muted: 0 0% 95%;                 /* #F2F2F2 */
+    --muted-foreground: 0 0% 40%;       /* #666 */
+
+    --accent: 0 0% 95%;
+    --accent-foreground: 0 0% 20%;
+
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 85%;
-    --input: 0 0% 85%;
-    --ring: 221 42% 46%;
+
+    --border: 0 0% 75%;                /* #C0C0C0 */
+    --input: 0 0% 80%;                 /* #CCC */
+    --ring: 196 86% 31%;               /* teal blue for focus ring */
+
     --radius: 0.8rem;
   }
 
   .dark {
-    --background: 247 38% 15%;
-    --foreground: 240 10% 90%;
-    --card: 246 24% 23%;
-    --card-foreground: 240 10% 90%;
-    --popover: 247 38% 15%;
-    --popover-foreground: 240 10% 90%;
-    --primary: 205 50% 55%;
-    --primary-foreground: 247 38% 15%;
-    --secondary: 303 33% 40%;
-    --secondary-foreground: 240 10% 90%;
-    --muted: 246 24% 23%;
-    --muted-foreground: 240 5% 65%;
-    --accent: 0 70% 75%;
-    --accent-foreground: 240 10% 90%;
-    --destructive: 0 62.8% 30.6%;
+    /* Dark mode—kept consistent, only slight teal tuning */
+    --background: 220 15% 10%;
+    --foreground: 0 0% 98%;
+
+    --card: 220 15% 15%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 220 15% 10%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 196 86% 35%;            /* slightly brighter teal for dark mode */
+    --primary-foreground: 0 0% 10%;
+
+    --secondary: 220 10% 20%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 220 10% 20%;
+    --muted-foreground: 0 0% 70%;
+
+    --accent: 220 10% 25%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 62% 30%;
     --destructive-foreground: 0 0% 98%;
-    --border: 246 16% 30%;
-    --input: 246 16% 30%;
-    --ring: 205 50% 55%;
+
+    --border: 220 10% 25%;
+    --input: 220 10% 25%;
+    --ring: 196 86% 35%;
   }
 }
 

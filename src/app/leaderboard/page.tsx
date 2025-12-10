@@ -12,7 +12,8 @@ import { useEffect, useMemo } from 'react';
 import Loader from '@/components/common/loader';
 import Clarity from '@microsoft/clarity';
 
-const projectId = "ugjiip6xda";
+const projectId = "ugjiip6xda"
+
 Clarity.init(projectId);
 
 const leaderboardData = [

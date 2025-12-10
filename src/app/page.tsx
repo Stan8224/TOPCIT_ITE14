@@ -1,4 +1,3 @@
-
 'use client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,6 +8,7 @@ import { initiateEmailSignIn } from '@/firebase/non-blocking-login';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
+import styles from './login.module.css';
 
 const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg {...props} viewBox="0 0 48 48">
@@ -46,6 +46,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!isUserLoading && user) {
@@ -53,32 +54,41 @@ export default function LoginPage() {
     }
   }, [user, isUserLoading, router]);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (auth) {
-      initiateEmailSignIn(auth, email, password);
+    if (!auth) return;
+    
+    setIsLoading(true);
+    try {
+      await initiateEmailSignIn(auth, email, password);
+    } catch (error) {
+      console.error('Login error:', error);
+      // You could add error handling UI here
+    } finally {
+      setIsLoading(false);
     }
   };
   
   if (isUserLoading || user) {
-    return <div className="fixed inset-0 bg-background z-50" />;
+    return <div className={styles.loadingOverlay} />;
   }
 
   return (
-    <div className="flex h-screen flex-col bg-secondary">
-      <div className="flex h-1/4 items-center justify-center text-center text-foreground">
-        <h1 className="text-2xl font-bold uppercase tracking-wider">Login</h1>
+    <div className={styles.loginPage}>
+      <div className={styles.loginHeader}>
+        <h1 className={styles.loginTitle}>Login</h1>
       </div>
-      <div className="flex-1 rounded-t-[3rem] bg-background p-8">
-        <div className="mx-auto w-full max-w-sm">
-          <div className="-mt-16 mb-8 flex justify-center">
-            <div className="rounded-2xl bg-primary px-12 py-3 text-center text-primary-foreground shadow-lg">
-              <h2 className="text-xl font-bold">WELCOME BACK!</h2>
+      <div className={styles.loginContent}>
+        <div className={styles.loginContainer}>
+          <div className={styles.welcomeBanner}>
+            <div className={styles.welcomeBox}>
+              <h2 className={styles.welcomeText}>WELCOME BACK!</h2>
             </div>
           </div>
-          <form onSubmit={handleLogin} className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-medium text-gray-700">Email</Label>
+          
+          <form onSubmit={handleLogin} className={styles.loginForm}>
+            <div className={styles.formGroup}>
+              <Label htmlFor="email" className={styles.formLabel}>Email</Label>
               <Input 
                 id="email" 
                 type="email" 
@@ -86,12 +96,14 @@ export default function LoginPage() {
                 required 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="rounded-lg border-2 border-primary/20 bg-white/50 px-4 py-3 text-lg backdrop-blur-sm focus:border-primary focus:ring-primary"
+                className={styles.formInput}
+                disabled={isLoading}
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="password"className="text-sm font-medium text-gray-700">Password</Label>
-              <div className="relative">
+            
+            <div className={styles.formGroup}>
+              <Label htmlFor="password" className={styles.formLabel}>Password</Label>
+              <div className={styles.passwordInputWrapper}>
                 <Input
                   id="password"
                   type={showPassword ? 'text' : 'password'}
@@ -99,48 +111,64 @@ export default function LoginPage() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="rounded-lg border-2 border-primary/20 bg-white/50 px-4 py-3 text-lg backdrop-blur-sm focus:border-primary focus:ring-primary pr-10"
+                  className={`${styles.formInput} ${styles.passwordInput}`}
+                  disabled={isLoading}
                 />
                 <Button
                   type="button"
                   variant="ghost"
                   size="icon"
-                  className="absolute inset-y-0 right-0 h-full px-3 text-gray-600 hover:bg-transparent"
+                  className={styles.passwordToggleButton}
                   onClick={() => setShowPassword((prev) => !prev)}
+                  disabled={isLoading}
                 >
                   {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </Button>
               </div>
-              <div className="text-right">
-                <Link href="#" className="text-sm text-primary hover:underline">
+              <div className={styles.forgotPasswordLink}>
+                <Link href="#" className={styles.forgotPasswordText}>
                   Forgot Password?
                 </Link>
               </div>
             </div>
 
-            <Button type="submit" className="w-full rounded-lg bg-primary py-3 text-lg font-bold text-primary-foreground shadow-md hover:bg-primary/90">
-              LOGIN
+            <Button 
+              type="submit" 
+              className={styles.submitButton}
+              disabled={isLoading}
+            >
+              {isLoading ? 'LOGGING IN...' : 'LOGIN'}
             </Button>
           </form>
 
-          <div className="my-6 flex items-center">
-            <div className="flex-grow border-t border-gray-400"></div>
-            <span className="mx-4 shrink text-sm font-medium text-gray-600">OR</span>
-            <div className="flex-grow border-t border-gray-400"></div>
+          <div className={styles.dividerContainer}>
+            <div className={styles.dividerLine}></div>
+            <span className={styles.dividerText}>OR</span>
+            <div className={styles.dividerLine}></div>
           </div>
 
-          <div className="flex justify-center gap-6">
-            <Button variant="outline" size="icon" className="h-14 w-14 rounded-full border-2 border-gray-300 bg-white shadow-sm">
-              <GoogleIcon className="h-7 w-7" />
+          <div className={styles.socialButtonsContainer}>
+            <Button 
+              variant="outline" 
+              size="icon" 
+              className={styles.socialButton}
+              disabled={isLoading}
+            >
+              <GoogleIcon className={styles.googleIcon} />
             </Button>
-            <Button variant="outline" size="icon" className="h-14 w-14 rounded-full border-2 border-gray-300 bg-white shadow-sm">
-              <FacebookIcon className="h-10 w-10" />
+            <Button 
+              variant="outline" 
+              size="icon" 
+              className={styles.socialButton}
+              disabled={isLoading}
+            >
+              <FacebookIcon className={styles.facebookIcon} />
             </Button>
           </div>
 
-          <p className="mt-8 text-center text-sm text-gray-600">
+          <p className={styles.signupContainer}>
             Don't have an account?{' '}
-            <Link href="/signup" className="font-medium text-primary hover:underline">
+            <Link href="/signup" className={styles.signupLink}>
               Sign up
             </Link>
           </p>

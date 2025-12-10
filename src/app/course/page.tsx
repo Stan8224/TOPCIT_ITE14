@@ -17,7 +17,8 @@ import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescript
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import Clarity from '@microsoft/clarity';
 
-const projectId = "ugjiip6xda";
+const projectId = "ugjiip6xda"
+
 Clarity.init(projectId);
 
 const iconMap: { [key: string]: React.ElementType } = {

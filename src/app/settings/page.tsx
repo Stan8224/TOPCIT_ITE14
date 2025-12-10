@@ -12,11 +12,6 @@ import Loader from '@/components/common/loader';
 import { useDoc } from '@/firebase/firestore/use-doc';
 import { doc } from 'firebase/firestore';
 import { ArrowLeft } from 'lucide-react';
-import Clarity from '@microsoft/clarity';
-
-const projectId = "ugjiip6xda"
-
-Clarity.init(projectId);
 
 export default function SettingsPage() {
   const { auth, user, isUserLoading, firestore } = useFirebase();

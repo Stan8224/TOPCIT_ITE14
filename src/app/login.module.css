@@ -1,0 +1,256 @@
+/* login.module.css */
+.loginPage {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  background-color: hsl(var(--secondary));
+}
+
+.loginHeader {
+  display: flex;
+  height: 25%;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: hsl(var(--foreground));
+}
+
+.loginTitle {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.loginContent {
+  flex: 1;
+  border-top-left-radius: 3rem;
+  border-top-right-radius: 3rem;
+  background-color: hsl(var(--background));
+  padding: 2rem;
+}
+
+.loginContainer {
+  width: 100%;
+  max-width: 24rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.welcomeBanner {
+  margin-top: -4rem;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.welcomeBox {
+  border-radius: var(--radius);
+  background-color: hsl(var(--primary));
+  padding-left: 3rem;
+  padding-right: 3rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  text-align: center;
+  color: hsl(var(--primary-foreground));
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.welcomeText {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 700;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formLabel {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  color: hsl(var(--muted-foreground));
+}
+
+.formInput {
+  border-radius: 0.5rem;
+  border-width: 2px;
+  border-color: hsl(var(--input));
+  background-color: rgba(255, 255, 255, 0.5);
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  backdrop-filter: blur(4px);
+  transition: border-color 0.2s;
+}
+
+.formInput:focus {
+  border-color: hsl(var(--ring));
+  outline-color: hsl(var(--ring));
+  box-shadow: 0 0 0 3px hsla(var(--ring), 0.2);
+}
+
+.formInput::placeholder {
+  color: hsl(var(--muted-foreground));
+  opacity: 0.7;
+}
+
+.passwordInputWrapper {
+  position: relative;
+}
+
+.passwordToggleButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.passwordToggleButton:hover {
+  background-color: transparent;
+}
+
+.passwordInput {
+  padding-right: 2.5rem;
+}
+
+.forgotPasswordLink {
+  text-align: right;
+}
+
+.forgotPasswordText {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: hsl(var(--primary));
+  text-decoration: none;
+  transition: text-decoration 0.2s;
+}
+
+.forgotPasswordText:hover {
+  text-decoration: underline;
+}
+
+.submitButton {
+  width: 100%;
+  border-radius: 0.5rem;
+  background-color: hsl(var(--primary));
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: 700;
+  color: hsl(var(--primary-foreground));
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: background-color 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.submitButton:hover {
+  background-color: hsla(var(--primary), 0.9);
+}
+
+.submitButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dividerContainer {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.dividerLine {
+  flex-grow: 1;
+  border-top-width: 1px;
+  border-color: hsl(var(--border));
+}
+
+.dividerText {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  flex-shrink: 1;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  color: hsl(var(--muted-foreground));
+}
+
+.socialButtonsContainer {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.socialButton {
+  height: 3.5rem;
+  width: 3.5rem;
+  border-radius: 9999px;
+  border-width: 2px;
+  border-color: hsl(var(--border));
+  background-color: hsl(var(--card));
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  transition: all 0.2s;
+}
+
+.socialButton:hover {
+  background-color: hsl(var(--muted));
+  transform: translateY(-2px);
+}
+
+.googleIcon {
+  height: 1.75rem;
+  width: 1.75rem;
+}
+
+.facebookIcon {
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+.signupContainer {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.signupLink {
+  font-weight: 500;
+  color: hsl(var(--primary));
+  text-decoration: none;
+  transition: text-decoration 0.2s;
+}
+
+.signupLink:hover {
+  text-decoration: underline;
+}
+
+.loadingOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: hsl(var(--background));
+  z-index: 50;
+}

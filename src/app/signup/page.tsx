@@ -21,11 +21,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Eye, EyeOff } from 'lucide-react';
-import Clarity from '@microsoft/clarity';
-
-const projectId = "ugjiip6xda"
-
-Clarity.init(projectId);
 
 const phoneRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
